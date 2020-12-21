@@ -1,12 +1,12 @@
 #SingleInstance Force ; The script will Reload if launched while already running
-#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases
+#NoEnv ; Recommended for performance and compatibility with future AutoHotkey releases
 #KeyHistory 0 ; Ensures user privacy when debugging is not needed
-SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory
-SendMode Input  ; Recommended for new scripts due to its superior speed and reliability
+SetWorkingDir %A_ScriptDir% ; Ensures a consistent starting directory
+SendMode Input ; Recommended for new scripts due to its superior speed and reliability
 
 ; Globals
-DesktopCount := 2        ; Windows starts with 2 desktops at boot
-CurrentDesktop := 1      ; Desktop count is 1-indexed (Microsoft numbers them this way)
+DesktopCount := 2 ; Windows starts with 2 desktops at boot
+CurrentDesktop := 1 ; Desktop count is 1-indexed (Microsoft numbers them this way)
 LastOpenedDesktop := 1
 
 ; DLL
@@ -110,6 +110,7 @@ _switchDesktopToTarget(targetDesktop)
     ; Go right until we reach the desktop we want
     while(CurrentDesktop < targetDesktop) {
         Send {LWin down}{LCtrl down}{Right down}{LWin up}{LCtrl up}{Right up}
+        Sleep, 75
         CurrentDesktop++
         OutputDebug, [right] target: %targetDesktop% current: %CurrentDesktop%
     }
@@ -117,12 +118,12 @@ _switchDesktopToTarget(targetDesktop)
     ; Go left until we reach the desktop we want
     while(CurrentDesktop > targetDesktop) {
         Send {LWin down}{LCtrl down}{Left down}{Lwin up}{LCtrl up}{Left up}
+        Sleep, 75
         CurrentDesktop--
         OutputDebug, [left] target: %targetDesktop% current: %CurrentDesktop%
     }
 
     ; Makes the WinActivate fix less intrusive
-    Sleep, 50
     focusTheForemostWindow(targetDesktop)
 }
 
